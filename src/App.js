@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 const Father = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 const Box = styled.div`
@@ -21,15 +22,21 @@ const Circle = styled(Box)`
   border-radius: 50px;
 `;
 
+const Input = styled.input.attrs({ required: true })`
+  background-color: tomato;
+`;
 function App() {
   return (
-    <Father>
+    <Father as="header">
       <Box bgColor="teal">
         <Text>One</Text>
       </Box>
       <Circle bgColor="tomato">
         <Text>Two</Text>
       </Circle>
+      <Input />
+      <Input />
+      <Input />
     </Father>
   );
 }
