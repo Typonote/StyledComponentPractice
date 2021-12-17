@@ -29,7 +29,7 @@ const Emoji = styled.span`
 const Box = styled.div`
   height: 200px;
   width: 200px;
-  background-color: tomato;
+  background-color: ${(props) => props.theme.backgroundColor};
   display: flex;
   justify-content: center;
   align-items: center;
