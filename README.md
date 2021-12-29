@@ -1,70 +1,133 @@
-# Getting Started with Create React App
+#### 개인 공부 
+https://styled-components.com/ 
+<br>
+<br>
+<br>
+# 왜 Styled Components 인가??
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
+Styled Components는 Javascript 파일 내에서 CSS를 사용할 수 있게 해주는 가장 대표적인 CSS-in-JS 라이브러리로, 
+<br>React, Vue와 같은 모던 자바스크립트 프레임워크에서 컴포넌트 기반 개발 방법이 방법이 주류가 됨에 따라 각광받고 있다.<br>
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 1. 설치 및 import
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```
+1. npm install styled-components OR yarn add styled-components
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. import styled from "styled-components";
+```
 
-### `npm run build`
+## 2. styled components 만들기
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+만들고자하는 컴포넌트의 render 함수 밖에서 다음과 같은 문법 형식으로 만든다.
+```
+const 컴포넌트명 = styled.태그명
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+const Box = styled.div`
+  background-color: teal;
+  width: 100px;
+  height: 100px;
+`;
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+const Text = styled.span`
+  color: white;
+`;
 
-### `npm run eject`
+function App() {
+  return (
+      <Box>
+        <Text>Hello</Text>
+      </Box>
+  );
+}
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 3. props 전달받아 사용하기 &  styled component 상속하기
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+상속 => const 컴포넌트명 = styled.스타일 컴포넌트명
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+const Box = styled.div`
+  background-color: ${(props) => props.bgColor};
+  width: 100px;
+  height: 100px;
+`;
 
-## Learn More
+const Circle = styled.(Box)`    // Box의 background-color, width, height를 상속받는다.
+  border-radius: 50px;  
+`;
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+function App() {
+  return (
+      <Box bgColor="teal" /> 
+      <Circle bgColor="tomato" />
+  );
+}
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
 
-### Code Splitting
+## 4. As 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+const Btn = styled.button`
+  color: white;
+`;
 
-### Analyzing the Bundle Size
+function App() {
+  return (
+      <Btn as="a" href="/">    // button component를 a태그 처럼 사용할 수 있다.
+         Home
+      </Btn>
+  );
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## 5. Attr
 
-### Making a Progressive Web App
+```
+const Input = styled.input.attrs({ required: true, minLength: 10 })`
+  background-color: tomato;
+`;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+function App() {
+  return (
+      <Input />  // 3개의 컴포넌트 모두에 required와 minLength 속성이 설정되어 있다.
+      <Input />
+      <Input />
+  );
+}
+```
 
-### Advanced Configuration
+## 6. Pseudo Selector: styled component 안에 element를 선택하는 방법
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+```
+const Apple = styled.span`
+  font-size: 36px;
+`;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+const Box = styled.div`
+  height: 200px;
+  width: 200px;
+  background-color: tomato;
+  
+  ${Apple}:hover {
+    font-size: 98px;
+  }
+`;
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+function App() {
+  return (
+    <Wrapper>
+      <Box>
+        <Apple>Yes Hover</Apple>.  // font-size가 98px로 변경됨.
+      </Box>
+      <Apple>No Hover</Apple>.     // font-siz 변경 x
+    </Wrapper>
+  );
+}
+```
